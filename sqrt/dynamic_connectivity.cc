@@ -219,9 +219,8 @@ void output_vector(const T_vector &v, bool add_one = false, int start = -1, int 
  
 int main() {
     ios::sync_with_stdio(false);
-#ifndef NEAL_DEBUG
     cin.tie(nullptr);
-#endif
+    cout.tie(nullptr);
  
     int N, M, K;
     cin >> N >> M >> K;
