@@ -1,3 +1,3 @@
-<h1> Thư viện C++ cho lập trình thi đấu </h1>
+<h1>Competitive Programming </h1>
 <hr>
-<p> Đây là thư viện cho những cuộc thi lập trình thi đấu </p>
+<p>Thư mục này gồm các thư viện để cài đặt theo từng chủ đề của ngôn ngữ C++ cho lập trình thi đấu </p>
