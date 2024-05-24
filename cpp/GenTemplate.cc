@@ -115,12 +115,10 @@ int main(int argc, char **argv)
     
 	for(auto &a : vec)
 	{
-		 a = log_rng(2,AB);
+		 a = unif_rng(1,AB);
 	}
 
-// Shuffle the generated numbers
-shuffle(vec.begin(),vec.end(),rng);
-output_vector(vec);
+	output_vector(vec);
 
 
 }
