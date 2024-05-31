@@ -294,22 +294,22 @@ void solve()
     cout << result << endl;
 
     barrett_int fact = factorial(a);
-    cout << "Factorial of " << a << " mod " << MOD << " is " << fact << endl;
+    cout << "Factorial of " << a << " mod " << MOD << " is " << fact << nl;
 
-    barrett_int fact1 = inv_factorial(a);
-    cout << "Inversion factorial of " << a << " mod " << MOD << " is " << fact1 << endl;
+    barrett_int inv_fact = inv_factorial(a);
+    cout << "Inversion factorial of " << a << " mod " << MOD << " is " << inv_fact << nl;
 
     barrett_int comb = choose(a, b);
-    cout << a << " choose " << b << " mod " << MOD << " is " << comb << endl;
+    cout << a << " choose " << b << " mod " << MOD << " is " << comb << nl;
 
     barrett_int perm = permute(a, b);
-    cout << a << " permute " << b << " mod " << MOD << " is " << perm << endl;
+    cout << a << " permute " << b << " mod " << MOD << " is " << perm << nl;
 
     barrett_int inv_comb = inv_choose(a, b);
-    cout << "Inverse of " << a << " choose " << b << " mod " << MOD << " is " << inv_comb << endl;
+    cout << "Inverse of " << a << " choose " << b << " mod " << MOD << " is " << inv_comb << nl;
 
     barrett_int inv_perm = inv_permute(a, b);
-    cout << "Inverse of " << a << " permute " << b << " mod " << MOD << " is " << inv_perm << endl;
+    cout << "Inverse of " << a << " permute " << b << " mod " << MOD << " is " << inv_perm << nl;
 
 }
 
