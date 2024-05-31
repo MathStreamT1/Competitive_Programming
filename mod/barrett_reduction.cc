@@ -285,12 +285,32 @@ void solve()
     int64_t a, b, p;
     cin >> a >> b >> p;
 
-    barrett = barrett_reduction(MOD = p);
+    MOD = p;
+    barrett = barrett_reduction(MOD);
 
     barrett_int base(a);
     barrett_int result = base.pow(b);
 
-    cout << result << nl;
+    cout << result << endl;
+
+    barrett_int fact = factorial(a);
+    cout << "Factorial of " << a << " mod " << MOD << " is " << fact << endl;
+
+    barrett_int fact1 = inv_factorial(a);
+    cout << "Inversion factorial of " << a << " mod " << MOD << " is " << fact1 << endl;
+
+    barrett_int comb = choose(a, b);
+    cout << a << " choose " << b << " mod " << MOD << " is " << comb << endl;
+
+    barrett_int perm = permute(a, b);
+    cout << a << " permute " << b << " mod " << MOD << " is " << perm << endl;
+
+    barrett_int inv_comb = inv_choose(a, b);
+    cout << "Inverse of " << a << " choose " << b << " mod " << MOD << " is " << inv_comb << endl;
+
+    barrett_int inv_perm = inv_permute(a, b);
+    cout << "Inverse of " << a << " permute " << b << " mod " << MOD << " is " << inv_perm << endl;
+
 }
 
 int main(int argc, char const *argv[])
