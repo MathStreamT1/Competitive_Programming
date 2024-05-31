@@ -215,10 +215,71 @@ struct _b_int {
     }
 };
  
-int MOD = int(1e9) + 7;
+int MOD = 123;
 barrett_reduction barrett(MOD);
 using barrett_int = _b_int<MOD, barrett>;
-
+ 
+ 
+vector<barrett_int> _factorial = {1}, _inv_factorial = {1};
+ 
+void prepare_factorials(int64_t maximum) {
+    static int64_t prepared_maximum = 0;
+ 
+    if (maximum <= prepared_maximum)
+        return;
+ 
+    // Prevent increasing maximum by only 1 each time.
+    maximum += maximum / 100;
+    _factorial.resize(maximum + 1);
+    _inv_factorial.resize(maximum + 1);
+ 
+    for (int64_t i = prepared_maximum + 1; i <= maximum; i++)
+        _factorial[i] = i * _factorial[i - 1];
+ 
+    _inv_factorial[maximum] = _factorial[maximum].inv();
+ 
+    for (int64_t i = maximum - 1; i > prepared_maximum; i--)
+        _inv_factorial[i] = (i + 1) * _inv_factorial[i + 1];
+ 
+    prepared_maximum = maximum;
+}
+ 
+barrett_int factorial(int64_t n) {
+    if (n < 0) return 0;
+    prepare_factorials(n);
+    return _factorial[n];
+}
+ 
+barrett_int inv_factorial(int64_t n) {
+    if (n < 0) return 0;
+    prepare_factorials(n);
+    return _inv_factorial[n];
+}
+ 
+barrett_int choose(int64_t n, int64_t r) {
+    if (r < 0 || r > n) return 0;
+    prepare_factorials(n);
+    return _factorial[n] * _inv_factorial[r] * _inv_factorial[n - r];
+}
+ 
+barrett_int permute(int64_t n, int64_t r) {
+    if (r < 0 || r > n) return 0;
+    prepare_factorials(n);
+    return _factorial[n] * _inv_factorial[n - r];
+}
+ 
+barrett_int inv_choose(int64_t n, int64_t r) {
+    assert(0 <= r && r <= n);
+    prepare_factorials(n);
+    return _inv_factorial[n] * _factorial[r] * _factorial[n - r];
+}
+ 
+barrett_int inv_permute(int64_t n, int64_t r) {
+    assert(0 <= r && r <= n);
+    prepare_factorials(n);
+    return _inv_factorial[n] * _factorial[n - r];
+}
+ 
 void solve()
 {
     int64_t a, b, p;
