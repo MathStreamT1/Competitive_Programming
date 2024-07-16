@@ -5,31 +5,56 @@
 #include <vector>
 using namespace std;
 
+struct cartesian_node {
+    // parent and children are indices of the tree. [start, end) is the range that this node is the min/max of.
+    int parent = -1, children[2] = {-1, -1};
+    int start, end;
+};
+ 
 // Use compare = less<T>() for a min heap and compare = greater<T>() for a max heap.
 // When there are ties, the left value will be the parent of the right value.
 template<typename T, typename Compare>
-vector<int> build_cartesian_tree(const vector<T> &A, Compare &&compare) {
+vector<cartesian_node> build_cartesian_tree(const vector<T> &A, Compare &&compare) {
     int n = int(A.size());
-    vector<int> parent(n, -1);
+    vector<cartesian_node> nodes(n);
     vector<int> stack;
-
+ 
+    auto add_edge = [&](int p, int c, int index) -> void {
+        if (p >= 0) nodes[p].children[index] = c;
+        if (c >= 0) nodes[c].parent = p;
+    };
+ 
     for (int i = 0; i < n; i++) {
         int erased = -1;
-
+ 
         while (!stack.empty() && compare(A[i], A[stack.back()])) {
+            nodes[stack.back()].end = i;
             erased = stack.back();
             stack.pop_back();
         }
-
-        parent[i] = stack.empty() ? -1 : stack.back();
-
-        if (erased >= 0)
-            parent[erased] = i;
-
+ 
+        add_edge(stack.empty() ? -1 : stack.back(), i, 1);
+        add_edge(i, erased, 0);
+        nodes[i].start = nodes[i].parent + 1;
         stack.push_back(i);
     }
-
-    return parent;
+ 
+    while (!stack.empty()) {
+        nodes[stack.back()].end = n;
+        stack.pop_back();
+    }
+ 
+    return nodes;
+}
+ 
+int find_cartesian_tree_root(const vector<cartesian_node> &nodes) {
+    int n = int(nodes.size());
+ 
+    for (int i = 0; i < n; i++)
+        if (nodes[i].parent < 0)
+            return i;
+ 
+    return -1;
 }
 
 int main() {
@@ -44,13 +69,12 @@ int main() {
     for (auto &a : A)
         cin >> a;
 
-    vector<int> parent = build_cartesian_tree(A, less<int>());
+    vector<cartesian_node> min_heap_tree = build_cartesian_tree(A, less<int>());
+    vector<cartesian_node> max_heap_tree = build_cartesian_tree(A, greater<int>());
 
     for (int i = 0; i < N; i++)
-        cout << parent[i] + 1 << (i < N - 1 ? ' ' : '\n');
-
-    parent = build_cartesian_tree(A, greater<int>());
+        cout << min_heap_tree[i].parent + 1 << (i < N - 1 ? ' ' : '\n');
 
     for (int i = 0; i < N; i++)
-        cout << parent[i] + 1 << (i < N - 1 ? ' ' : '\n');
+        cout << max_heap_tree[i].parent + 1 << (i < N - 1 ? ' ' : '\n');
 }
