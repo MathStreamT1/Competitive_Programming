@@ -279,7 +279,8 @@ struct seg_tree_beats {
         return vector<segment>(tree.begin() + tree_n, tree.begin() + tree_n + n);
     }
 
-    // Finds the end of the last subarray starting at `first` satisfying `should_join` via binary search in O(log n).
+    // Finds the end of the last prefix of the subarray [a, b) satisfying `should_join` via binary search in O(log n).
+    // Return value will be between a - 1 and b, inclusive.
     template<typename T_bool>
     int find_last_subarray(T_bool &&should_join, int n, int first = 0) {
         assert(0 <= first && first <= n);
